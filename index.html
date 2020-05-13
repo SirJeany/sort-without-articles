@@ -1,1 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sort Without Articles</title>
+</head>
+<body>
 
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: url("https://source.unsplash.com/nDqA4d5NL0k/2000x2000");
+      background-size: cover;
+      display: flex;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    #bands {
+      list-style: inside square;
+      font-size: 20px;
+      background: white;
+      width: 500px;
+      /* margin: auto; */
+      padding: 0;
+      box-shadow: 0 0 0 20px rgba(0, 0, 0, 0.05);
+    }
+    
+    #bands li {
+      border-bottom: 1px solid #efefef;
+      padding: 20px;
+    }
+    
+    #bands li:last-child {
+      border-bottom: 0;
+    }
+
+    a {
+      color: #ffc600;
+      text-decoration: none;
+    }
+
+    .container {
+        margin-top: 100px;
+        margin-bottom: 100px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+  </style>
+
+  <div class="container">
+      <ul id="bands"></ul>
+  </div>
+
+<script>
+const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
+
+const articles = ['the', 'and', 'a', 'an', 'in'];
+
+function wihtoutArticles(band_a, band_b){
+    // Rgex to split the words
+    let split = /\b\w+\b/g;
+    // using the regex we split the band name into an array containing each word
+    let band_array_a = band_a.toLowerCase().match(split);
+    let band_array_b = band_b.toLowerCase().match(split);
+
+    // For each article, check both band arrays and remove the article in them
+    articles.forEach(article => {
+        let index_a = band_array_a.indexOf(article);
+        let index_b = band_array_b.indexOf(article);
+        if(index_a > -1)
+            band_array_a.splice(index_a, 1);
+        
+        if(index_b > -1)
+            band_array_b.splice(index_b, 1);
+    });
+
+    // get them back in string form
+    band_a = band_array_a.join(' ');
+    band_b = band_array_b.join(' ');
+
+    // console.log("Band A:", band_a);
+    // console.log("Band B:", band_b);
+
+    if(band_a > band_b)
+        return 1;
+        
+    if(band_a < band_b)
+        return -1;
+
+    return 0;
+}
+
+bands.sort(wihtoutArticles);
+
+console.log(bands);
+
+// Add bands to HTML:
+let bands_ul = document.getElementById('bands');
+bands.forEach(band => {
+    let new_li = document.createElement('li');
+    new_li.innerText = band;
+    bands_ul.appendChild(new_li);
+});
+
+</script>
+
+</body>
+</html>
